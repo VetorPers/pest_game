@@ -12,5 +12,7 @@ class ExportController extends Controller
     public function export(Request $request)
     {
         Excel::import(new QuestionsImport, 'test.xlsx');
+
+        return redirect('/')->with('success', 'All good!');
     }
 }
