@@ -3,12 +3,12 @@
 namespace App\Admin\Controllers;
 
 use App\Question;
-use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Widgets\Table;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
+use App\Http\Controllers\Controller;
+use Encore\Admin\Controllers\HasResourceActions;
 
 class QuestionController extends Controller
 {
@@ -74,36 +74,21 @@ class QuestionController extends Controller
         $grid->type('题型')->display(function ($type) {
             return $type == 2 ? '多选' : '单选';
         });
+        $grid->column('', '答案')->expand(function ($model) {
+            $answers = $model->answers->map(function ($answer) {
+                $answer = $answer->only(['id', 'title', 'is_right', 'created_at', 'updated_at']);
+                $answer['is_right'] = $answer['is_right'] == 1 ? '<i class="fa fa-check"></i>' : '—';
+
+                return $answer;
+            });
+
+            return new Table(['ID', '内容', '是否正确', '创建时间', '更新时间'], $answers->toArray());
+        });
         $grid->level('难度系数');
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
 
         return $grid;
-    }
-
-    /**
-     * Make a show builder.
-     *
-     * @param mixed $id
-     *
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        $show = new Show(Question::findOrFail($id));
-
-        $show->id('Id');
-        $show->title('题干');
-        $show->type('题型')->display(function ($type) {
-            return $type == 2 ? '多选' : '单选';
-        });
-        $show->desc('解析');
-        $show->img('图片');
-        $show->level('难度系数');
-        $show->created_at('创建时间');
-        $show->updated_at('更新时间');
-
-        return $show;
     }
 
     /**
@@ -121,31 +106,16 @@ class QuestionController extends Controller
             2 => '多选',
         ]);
         $form->text('desc', '解析');
-        $form->image('img', '图片');
+        $form->image('img', '图片')->uniqueName();
         $form->text('level', '难度系数');
 
-        $ao = [0 => '否', 1 => '是'];
-        $form->text("answer1.title", '答案A');
-        $form->select("answer1.is_right", '是否正确')->options($ao);
-        $form->text("answer2.title", '答案B');
-        $form->select("answer2.is_right", '是否正确')->options($ao);
-        $form->text('answer3.title', '答案C');
-        $form->select("answer3.is_right", '是否正确')->options($ao);
-        $form->text('answer4.title', '答案D');
-        $form->select("answer4.is_right", '是否正确')->options($ao);
-
-        $form->text('created_at', '创建时间')->disable();
-        $form->text('updated_at', '更新时间')->disable();
-
-        $form->tools(function (Form\Tools $tools) {
-            $tools->disableView();
-        });
-
-        $form->footer(function ($footer) {
-            $footer->disableViewCheck();
-            $footer->disableEditingCheck();
-            $footer->disableCreatingCheck();
-        });
+        $form->hasMany('answers', '答案', function (Form\NestedForm $form) {
+            $form->text('title', '内容');
+            $form->select('is_right', '是否正确')->options([
+                0 => '否',
+                1 => '是',
+            ]);
+        })->mode('table');
 
         return $form;
     }

@@ -21,9 +21,7 @@ class QuestionsImport implements ToCollection
         foreach ($rows as $k => $row) {
             if ( !$k) continue;
             $question = $this->storeQuestions($row);
-            $answers = $question->answers()->createMany($this->answers($row));
-            $question->right_answers = $answers->where('is_right', 1)->pluck('id')->implode(';');
-            $question->save();
+            $question->answers()->createMany($this->answers($row));
         }
     }
 
