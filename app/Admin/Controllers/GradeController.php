@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Grade;
-use App\User;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -11,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class UserController extends Controller
+class GradeController extends Controller
 {
     use HasResourceActions;
 
@@ -19,7 +18,6 @@ class UserController extends Controller
      * Index interface.
      *
      * @param Content $content
-     *
      * @return Content
      */
     public function index(Content $content)
@@ -35,7 +33,6 @@ class UserController extends Controller
      *
      * @param mixed $id
      * @param Content $content
-     *
      * @return Content
      */
     public function edit($id, Content $content)
@@ -50,7 +47,6 @@ class UserController extends Controller
      * Create interface.
      *
      * @param Content $content
-     *
      * @return Content
      */
     public function create(Content $content)
@@ -68,18 +64,12 @@ class UserController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new User);
+        $grid = new Grid(new Grade);
 
         $grid->id('Id');
-        $grid->name('姓名');
-        $grid->number('学号');
-        $grid->column('grade.name', '班级');
+        $grid->name('班级名称');
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
-
-        $grid->filter(function ($filter) {
-            $filter->equal('grade_id', '班级')->select(Grade::all()->pluck('name', 'id'));
-        });
 
         $grid->disableExport();
 
@@ -93,11 +83,9 @@ class UserController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new User);
+        $form = new Form(new Grade);
 
-        $form->text('name', '姓名')->required();
-        $form->text('number', '学号')->required();
-        $form->select('grade_id', '班级')->options(Grade::all()->pluck('name', 'id'))->required();
+        $form->text('name', '班级名称');
 
         return $form;
     }

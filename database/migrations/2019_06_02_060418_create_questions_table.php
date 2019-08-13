@@ -17,6 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->unsignedTinyInteger('type')->default(1);
+            $table->unsignedTinyInteger('tree_sign')->default(1);
             $table->string('desc')->nullable();
             $table->text('img')->nullable();
             $table->unsignedTinyInteger('level');

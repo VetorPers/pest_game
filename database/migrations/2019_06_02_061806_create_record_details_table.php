@@ -18,6 +18,8 @@ class CreateRecordDetailsTable extends Migration
             $table->unsignedInteger('record_id');
             $table->unsignedInteger('question_id');
             $table->string('answer_ids');
+            $table->unsignedTinyInteger('is_right')->default(0);
+            $table->unsignedInteger('score')->default(0);
             $table->timestamps();
         });
     }

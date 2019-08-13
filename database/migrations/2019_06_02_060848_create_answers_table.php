@@ -19,6 +19,7 @@ class CreateAnswersTable extends Migration
             $table->string('title');
             $table->text('img')->nullable();
             $table->unsignedTinyInteger('is_right')->default(0);
+            $table->string('tag');
             $table->timestamps();
 
             $table->index('question_id');

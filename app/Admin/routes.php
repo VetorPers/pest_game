@@ -14,4 +14,6 @@ Route::group([
     $router->resource('users', UserController::class);
     $router->resource('questions', QuestionController::class);
     $router->resource('records', RecordController::class);
+    $router->resource('grades', GradeController::class);
+    $router->resource('answers', AnswerController::class);
 });

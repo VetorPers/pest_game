@@ -33,10 +33,12 @@ class QuestionsImport implements ToCollection
     public function storeQuestions($row)
     {
         return Question::create([
-            'title' => $row[0],
-            'type'  => $row[1],
-            'desc'  => $row[2],
-            'level' => $row[3],
+            'title'     => $row[0],
+            'type'      => $row[1],
+            'desc'      => $row[2],
+            'level'     => $row[3],
+            'img'       => $row[4],
+            'tree_sign' => $row[5],
         ]);
     }
 
@@ -49,7 +51,7 @@ class QuestionsImport implements ToCollection
     {
         $answers = [];
         $c = count($row);
-        for ($i = 5; $i <= $c; $i = $i + 2) {
+        for ($i = 6; $i <= $c; $i = $i + 2) {
             if ( !empty($row[$i])) {
                 $answers[] = [
                     'title'    => $row[$i],
