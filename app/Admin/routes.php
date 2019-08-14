@@ -15,5 +15,4 @@ Route::group([
     $router->resource('questions', QuestionController::class);
     $router->resource('records', RecordController::class);
     $router->resource('grades', GradeController::class);
-    $router->resource('answers', AnswerController::class);
 });
