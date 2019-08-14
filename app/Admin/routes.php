@@ -5,9 +5,9 @@ use Illuminate\Routing\Router;
 Admin::registerAuthRoutes();
 
 Route::group([
-    'prefix'        => config('admin.route.prefix'),
-    'namespace'     => config('admin.route.namespace'),
-    'middleware'    => config('admin.route.middleware'),
+    'prefix'     => config('admin.route.prefix'),
+    'namespace'  => config('admin.route.namespace'),
+    'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index')->name('admin.home');
@@ -15,4 +15,5 @@ Route::group([
     $router->resource('questions', QuestionController::class);
     $router->resource('records', RecordController::class);
     $router->resource('grades', GradeController::class);
+    $router->get('charts', 'ChartController@index');
 });

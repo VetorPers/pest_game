@@ -351,6 +351,9 @@ return [
     |
     */
     'extensions' => [
+        'chartjs' => [
+            'enable' => true,
+        ]
 
     ],
 ];
