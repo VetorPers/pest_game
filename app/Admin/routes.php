@@ -16,4 +16,5 @@ Route::group([
     $router->resource('records', RecordController::class);
     $router->resource('grades', GradeController::class);
     $router->get('charts', 'ChartController@index');
+    $router->post('charts', 'ChartController@getData');
 });

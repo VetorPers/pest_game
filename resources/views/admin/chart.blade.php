@@ -12,35 +12,61 @@
     </div>
 
     <div class="box-body">
-        <div class="col-md-8">
-            <div style="position: relative; height:70vh; width:50vw">
-                <canvas id="myChart" height="400" width="400"></canvas>
+        <div class="col-md-4">
+            <div class="col-md-offset-1" style="margin-top: 30%">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>分数段</th>
+                        <th>数量(次)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">0~60</th>
+                        <td class="td1">{{ $all[0] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">60~70</th>
+                        <td class="td2">{{ $all[1] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">70~80</th>
+                        <td class="td3">{{ $all[2] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">>=80</th>
+                        <td class="td4">{{ $all[3] }}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="col-md-12">
-                <div class="col-md-8">
-                    <select class="grades-select js-states form-control" name="state">
-                        <option></option>
-                        <option value="0">全部</option>
-                        @foreach($grades as $grade)
-                            <option value="{{ $grade->id }}">{{ $grade->name }}</option>
-                        @endforeach
-                    </select>
+                <div style="position: relative; height:70vh; width:50vw">
+                    <canvas id="all-chart" height="400" width="400"></canvas>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-12" style="margin-top: 80%">
-                <div class="media">
-                    <div class="media-body">
-                        <h4 class="media-heading">Tips:</h4>
-                        <div class="small">
-                            <ul>
-                                <li><p>左侧环形图展示了所有人的答题情况。</p></li>
-                                <li><p>选择班级可查看对应班级分数分布图。</p></li>
-                            </ul>
-                        </div>
+        <div class="col-md-2">
+            <select class="grades-select js-states form-control" name="state">
+                <option></option>
+                <option value="0">全部</option>
+                @foreach($grades as $grade)
+                    <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                @endforeach
+            </select>
+
+            <div class="media" style="margin-top: 200%">
+                <div class="media-body">
+                    <h4 class="media-heading">Tips:</h4>
+                    <div class="small" style="margin-top: 5%">
+                        <ul class="list-unstyled">
+                            <li><p>选择班级查看班级内分数分布图。</p></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -56,10 +82,9 @@
             allowClear: true
         });
 
-        var ctx = $('#myChart');
         var data = {
             datasets: [{
-                data: JSON.parse('{{ $all }}'),
+                data: [$('.td1').text(), $('.td2').text(), $('.td3').text(), $('.td4').text()],
                 backgroundColor: [
                     '#ff6384',
                     '#ff9f40',
@@ -76,7 +101,7 @@
             ]
         };
 
-        var myChart = new Chart(ctx, {
+        var allChart = new Chart($('#all-chart'), {
             type: 'doughnut',
             data: data,
             options: {
@@ -97,9 +122,10 @@
         });
 
         $('.grades-select').change(function () {
-            var url = location.href;
-            url = url.replace(/\?[\s\S]*/, '');
-            location.href = url + "?grade_id=" + $(this).val();
+            $.post('/admin/charts', {'grade_id': $(this).val()}, function (res) {
+                allChart.data.datasets[0].data = res.data
+                allChart.update()
+            })
         })
     });
 </script>
