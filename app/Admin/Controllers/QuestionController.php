@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\QsImport;
 use App\Question;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -94,6 +95,10 @@ class QuestionController extends Controller
 
         $grid->filter(function ($filter) {
             $filter->like('title', '题干');
+        });
+
+        $grid->tools(function (Grid\Tools $tools) {
+            $tools->append(new QsImport());
         });
 
         $grid->disableExport();

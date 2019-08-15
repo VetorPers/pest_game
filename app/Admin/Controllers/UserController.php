@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Import;
 use App\User;
 use App\Grade;
 use Encore\Admin\Form;
@@ -81,6 +82,9 @@ class UserController extends Controller
             $filter->equal('grade_id', '班级')->select(Grade::all()->pluck('name', 'id'));
         });
 
+        $grid->tools(function (Grid\Tools $tools) {
+            $tools->append(new Import());
+        });
         $grid->exporter(new  UsersExporter());
 
         return $grid;
