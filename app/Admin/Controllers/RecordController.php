@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\RecordsExporter;
 use App\Grade;
 use App\Question;
 use App\Record;
@@ -68,7 +69,8 @@ class RecordController extends Controller
             $actions->disableEdit();
         });
         $grid->disableCreateButton();
-        $grid->disableExport();
+
+        $grid->exporter(new RecordsExporter());
 
         return $grid;
     }

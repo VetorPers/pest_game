@@ -2,14 +2,14 @@
 
 namespace App\Admin\Controllers;
 
-use App\Grade;
 use App\User;
-use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\HasResourceActions;
+use App\Grade;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
+use App\Http\Controllers\Controller;
+use App\Admin\Extensions\UsersExporter;
+use Encore\Admin\Controllers\HasResourceActions;
 
 class UserController extends Controller
 {
@@ -81,7 +81,7 @@ class UserController extends Controller
             $filter->equal('grade_id', '班级')->select(Grade::all()->pluck('name', 'id'));
         });
 
-        $grid->disableExport();
+        $grid->exporter(new  UsersExporter());
 
         return $grid;
     }
