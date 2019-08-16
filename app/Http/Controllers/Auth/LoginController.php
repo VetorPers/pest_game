@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,32 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * 登录
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function login(Request $request)
+    {
+        $type = $request->input('type');
+        if ($type == 1) {
+            $user = User::firstOrCreate(['name' => '游客']);
+            if ($this->guard()->attempt(['id' => $user->id, 'password' => '123123'], true)) {
+                return $this->sendLoginResponse($request);
+            }
+        }
+
+        if ($type == 2) {
+            if ($this->guard()->attempt(['number' => $request->input('number'), 'password' => '123123'])) {
+                return $this->sendLoginResponse($request);
+            }
+        }
+
+        return $this->sendFailedLoginResponse($request);
     }
 }
