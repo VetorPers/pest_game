@@ -48,7 +48,7 @@ class RecordController extends Controller
             return $this->user->grade->name;
         });
         $grid->column('user.number', '学号');
-        $grid->score('分数');
+        $grid->score('分数')->sortable();
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
 
