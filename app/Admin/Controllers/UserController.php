@@ -77,6 +77,7 @@ class UserController extends Controller
         $grid->column('grade.name', '班级');
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
+        $grid->model()->whereNotNull('number');
 
         $grid->filter(function ($filter) {
             $filter->equal('grade_id', '班级')->select(Grade::all()->pluck('name', 'id'));
