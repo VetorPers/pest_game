@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Pest;
 use App\Question;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -20,7 +21,8 @@ class QuestionsImport implements ToCollection
     {
         foreach ($rows as $k => $row) {
             if ( !$k) continue;
-            $question = $this->storeQuestions($row);
+            $pest = $this->storePest($row);
+            $question = $this->storeQuestions($pest->id, $row);
             $question->answers()->createMany($this->answers($row));
         }
     }
@@ -30,15 +32,29 @@ class QuestionsImport implements ToCollection
      *
      * @return mixed
      */
-    public function storeQuestions($row)
+    public function storePest($row)
+    {
+        return Pest::firstOrCreate([
+            'name'      => $row[6],
+            'tree_sign' => $row[5],
+        ]);
+    }
+
+    /**
+     * @param $pestId
+     * @param $row
+     *
+     * @return mixed
+     */
+    public function storeQuestions($pestId, $row)
     {
         return Question::create([
-            'title'     => $row[0],
-            'type'      => $row[1],
-            'desc'      => $row[2],
-            'level'     => $row[3],
-            'img'       => $row[4],
-            'tree_sign' => $row[5],
+            'pest_id' => $pestId,
+            'title'   => $row[0],
+            'type'    => $row[1],
+            'desc'    => $row[2],
+            'img'     => $row[3],
+            'level'   => $row[4],
         ]);
     }
 
@@ -51,7 +67,7 @@ class QuestionsImport implements ToCollection
     {
         $answers = [];
         $c = count($row);
-        for ($i = 6; $i <= $c; $i = $i + 2) {
+        for ($i = 7; $i <= $c; $i = $i + 2) {
             if ( !empty($row[$i])) {
                 $answers[] = [
                     'title'    => $row[$i],

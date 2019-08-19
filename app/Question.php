@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    protected $fillable = ['title', 'type', 'tree_sign', 'desc', 'img', 'level'];
+    protected $fillable = ['title', 'type', 'desc', 'img', 'level', 'pest_id'];
 
     public function getImgAttribute($value)
     {
