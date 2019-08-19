@@ -2,65 +2,22 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Actions\QsImport;
 use App\Question;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use App\Admin\Actions\QsImport;
 use Encore\Admin\Widgets\Table;
-use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\HasResourceActions;
 use Illuminate\Support\MessageBag;
+use Encore\Admin\Controllers\AdminController;
 
-class QuestionController extends Controller
+class QuestionController extends AdminController
 {
-    use HasResourceActions;
-
     /**
-     * Index interface.
+     * Title for current resource.
      *
-     * @param Content $content
-     *
-     * @return Content
+     * @var string
      */
-    public function index(Content $content)
-    {
-        return $content
-            ->header('Index')
-            ->description('description')
-            ->body($this->grid());
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Edit')
-            ->description('description')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Create')
-            ->description('description')
-            ->body($this->form());
-    }
+    protected $title = '题目';
 
     /**
      * Make a grid builder.

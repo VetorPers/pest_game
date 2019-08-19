@@ -2,36 +2,23 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Extensions\RecordsExporter;
+use App\User;
 use App\Grade;
-use App\Question;
 use App\Record;
 use App\RecordDetail;
-use App\User;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Encore\Admin\Layout\Content;
-use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\HasResourceActions;
+use App\Admin\Extensions\RecordsExporter;
+use Encore\Admin\Controllers\AdminController;
 
-class RecordController extends Controller
+class RecordController extends AdminController
 {
-    use HasResourceActions;
-
     /**
-     * Index interface.
+     * Title for current resource.
      *
-     * @param Content $content
-     *
-     * @return Content
+     * @var string
      */
-    public function index(Content $content)
-    {
-        return $content
-            ->header('Index')
-            ->description('description')
-            ->body($this->grid());
-    }
+    protected $title = '作答';
 
     /**
      * Make a grid builder.
@@ -73,22 +60,6 @@ class RecordController extends Controller
         $grid->exporter(new RecordsExporter());
 
         return $grid;
-    }
-
-    /**
-     * Show interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     *
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
     }
 
     /**

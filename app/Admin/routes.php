@@ -10,11 +10,11 @@ Route::group([
     'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index')->name('admin.home');
     $router->resource('users', UserController::class);
     $router->resource('questions', QuestionController::class);
     $router->resource('records', RecordController::class);
     $router->resource('grades', GradeController::class);
     $router->get('charts', 'ChartController@index');
     $router->post('charts', 'ChartController@getData');
+    $router->resource('pests', PestController::class);
 });
