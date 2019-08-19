@@ -13,6 +13,11 @@ class Question extends Model
         if ( !empty($value)) return asset('storage/' . $value);
     }
 
+    public function pest()
+    {
+        return $this->belongsTo(Pest::class);
+    }
+
     public function answers()
     {
         return $this->hasMany(Answer::class);

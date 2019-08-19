@@ -6,6 +6,8 @@ use App\Pest;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PestController extends AdminController
 {
@@ -56,5 +58,24 @@ class PestController extends AdminController
         ])->required();
 
         return $form;
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    public function treePest(Request $request)
+    {
+        $pest = Pest::all();
+
+        $res = [];
+        foreach ($pest->toArray() as $item) {
+            $res[] = [
+                'id'   => $item['id'],
+                'text' => $item['name'] . '—' . ($item['tree_sign'] == 2 ? '李子树' : '桃子树')];
+        }
+
+        return $res;
     }
 }

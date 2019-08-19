@@ -16,5 +16,6 @@ Route::group([
     $router->resource('grades', GradeController::class);
     $router->get('charts', 'ChartController@index');
     $router->post('charts', 'ChartController@getData');
+    $router->get('treePest', 'PestController@treePest');
     $router->resource('pests', PestController::class);
 });
