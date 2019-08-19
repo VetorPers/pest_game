@@ -3,29 +3,61 @@
 namespace App\Http\Controllers;
 
 
-use Auth;
 use App\Record;
 use App\Question;
 use App\RecordDetail;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PestController extends Controller
 {
     /**
-     * 获取问题
+     * 登陆
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function login(Request $request)
+    {
+        $type = $request->input('type', 1);
+        if ($type == 1) {
+            $user = User::firstOrCreate(['name' => '游客']);
+        }
+
+        if ($type == 2) {
+            $user = User::where('number', $request->input('number'))->first();
+        }
+
+        return response()->json([
+            'result'    => true,
+            'user_id'   => optional($user)->id,
+            'tree_sign' => rand(1, 2),
+        ]);
+    }
+
+    /**
+     * 获取问题
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return array
+     */
     public function questions(Request $request)
     {
-        $eds = RecordDetail::where('user_id', Auth::id())->get()->pluck('question_id')->unique()->all();
+        $userId = $request->input('user_id');
+        $eds = RecordDetail::where('user_id', $userId)->get()->pluck('question_id')->unique()->all();
 
-        $data = Question::with('answers')->whereNotIn('id', $eds)->inRandomOrder()->limit(10)->orderBy('level')->get();
+        $data = Question::with('answers')
+            ->where('tree_sign', $request->input('tree_sign'))
+            ->whereNotIn('id', $eds)
+            ->inRandomOrder()->limit(10)->orderBy('level')->get();
 
-        return $data;
+        return [
+            'result' => true,
+            'data'   => $data,
+        ];
     }
 
     /**
@@ -38,13 +70,14 @@ class PestController extends Controller
     public function storeUserAnswer(Request $request)
     {
         $data = $request->input('data');
+        $userId = $request->input('user_id');
         if (empty($data)) return response()->json([
             'result'  => true,
             'is_pass' => false,
         ]);
 
-        DB::transaction(function () use ($data) {
-            $record = Record::create(['user_id' => Auth::id()]);
+        DB::transaction(function () use ($userId, $data) {
+            $record = Record::create(['user_id' => $userId]);
 
             $details = [];
             foreach ($data as $item) {
@@ -54,7 +87,7 @@ class PestController extends Controller
 
                 $details[] = [
                     'record_id'   => $record->id,
-                    'user_id'     => Auth::id(),
+                    'user_id'     => $userId,
                     'question_id' => $questionId,
                     'answer_ids'  => implode(';', $answerIds),
                     'is_right'    => $isRight,

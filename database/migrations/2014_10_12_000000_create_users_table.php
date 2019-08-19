@@ -18,7 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('number')->nullable();
             $table->string('grade_id')->nullable();
-            $table->string('password')->default('$2y$10$Aa2XmrCYh5esjqPjbmrNHOyUP2EfuIDARx024TSXhy3RYLsdPo5.G');
             $table->timestamps();
         });
     }

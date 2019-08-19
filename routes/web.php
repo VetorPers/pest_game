@@ -19,7 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'pest', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'pest'], function () {
+    Route::post('login', 'PestController@login');
     Route::get('questions', 'PestController@questions');
     Route::post('storeUserAnswer', 'PestController@storeUserAnswer');
 });
