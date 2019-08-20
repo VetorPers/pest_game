@@ -53,7 +53,6 @@ class PestController extends Controller
         $level2 = Question::where('pest_id', $pest->id)->where('level', 2)->inRandomOrder()->limit(8)->get();
         $level3 = Question::where('pest_id', $pest->id)->where('level', 3)->inRandomOrder()->limit(1)->get();
 
-
         return response()->json([
             'result' => true,
             'data'   => $level1->merge($level2)->merge($level3),
