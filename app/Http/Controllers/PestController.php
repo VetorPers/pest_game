@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Pest;
 use App\Record;
 use App\Question;
 use App\RecordDetail;
@@ -42,22 +43,21 @@ class PestController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function questions(Request $request)
     {
-        $userId = $request->input('user_id');
-        $eds = RecordDetail::where('user_id', $userId)->get()->pluck('question_id')->unique()->all();
+        $pest = Pest::where('tree_sign', $request->input('tree_sign'))->inRandomOrder()->first();
 
-        $data = Question::with('answers')
-            ->where('tree_sign', $request->input('tree_sign'))
-            ->whereNotIn('id', $eds)
-            ->inRandomOrder()->limit(10)->orderBy('level')->get();
+        $level1 = Question::where('pest_id', $pest->id)->where('level', 1)->inRandomOrder()->limit(1)->get();
+        $level2 = Question::where('pest_id', $pest->id)->where('level', 2)->inRandomOrder()->limit(8)->get();
+        $level3 = Question::where('pest_id', $pest->id)->where('level', 3)->inRandomOrder()->limit(1)->get();
 
-        return [
+
+        return response()->json([
             'result' => true,
-            'data'   => $data,
-        ];
+            'data'   => $level1->merge($level2)->merge($level3),
+        ]);
     }
 
     /**
