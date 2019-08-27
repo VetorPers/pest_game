@@ -49,9 +49,9 @@ class PestController extends Controller
     {
         $pest = Pest::where('tree_sign', $request->input('tree_sign'))->inRandomOrder()->first();
 
-        $level1 = Question::where('pest_id', $pest->id)->where('level', 1)->inRandomOrder()->limit(1)->get();
-        $level2 = Question::where('pest_id', $pest->id)->where('level', 2)->inRandomOrder()->limit(8)->get();
-        $level3 = Question::where('pest_id', $pest->id)->where('level', 3)->inRandomOrder()->limit(1)->get();
+        $level1 = Question::select('id', 'title', 'type', 'desc', 'img')->with('answers:id,question_id,title,is_right')->where('pest_id', $pest->id)->where('level', 1)->inRandomOrder()->limit(1)->get();
+        $level2 = Question::select('id', 'title', 'type', 'desc', 'img')->with('answers:id,question_id,title,is_right')->where('pest_id', $pest->id)->where('level', 2)->inRandomOrder()->limit(8)->get();
+        $level3 = Question::select('id', 'title', 'type', 'desc', 'img')->with('answers:id,question_id,title,is_right')->where('pest_id', $pest->id)->where('level', 3)->inRandomOrder()->limit(1)->get();
 
         return response()->json([
             'result' => true,
