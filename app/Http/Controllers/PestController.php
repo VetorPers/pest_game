@@ -91,8 +91,8 @@ class PestController extends Controller
                     'answer_ids'  => implode(';', $answerIds),
                     'is_right'    => $isRight,
                     'score'       => $isRight ? 10 : 0,
-                    'created_at'  => time(),
-                    'updated_at'  => time(),
+                    'created_at'  => now(),
+                    'updated_at'  => now(),
                 ];
             }
 
