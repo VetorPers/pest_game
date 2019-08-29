@@ -9,10 +9,31 @@ use App\Question;
 use App\RecordDetail;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PestController extends Controller
 {
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        return view('index');
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function login(Request $request)
+    {
+        return view('login');
+    }
+
     /**
      * 登陆
      *
@@ -20,22 +41,26 @@ class PestController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function loginPost(Request $request)
     {
         $type = $request->input('type', 1);
         if ($type == 1) {
             $user = User::firstOrCreate(['name' => '游客']);
+            Auth::loginUsingId($user->id);
+
+            return $this->resOk();
         }
 
         if ($type == 2) {
             $user = User::where('number', $request->input('number'))->first();
+            if ( !$user) return $this->resFail('学号不正确');
+
+            Auth::loginUsingId($user->id);
+
+            return $this->resOk();
         }
 
-        return response()->json([
-            'result'    => true,
-            'user_id'   => optional($user)->id,
-            'tree_sign' => rand(1, 2),
-        ]);
+        return $this->resFail();
     }
 
     /**
@@ -47,16 +72,14 @@ class PestController extends Controller
      */
     public function questions(Request $request)
     {
-        $pest = Pest::where('tree_sign', $request->input('tree_sign'))->inRandomOrder()->first();
+        $tree_sign = rand(1, 2);
+        $pest = Pest::where('tree_sign', $tree_sign)->inRandomOrder()->first();
 
         $level1 = Question::select('id', 'title', 'type', 'desc', 'img')->with('answers:id,question_id,title,is_right')->where('pest_id', $pest->id)->where('level', 1)->inRandomOrder()->limit(1)->get();
         $level2 = Question::select('id', 'title', 'type', 'desc', 'img')->with('answers:id,question_id,title,is_right')->where('pest_id', $pest->id)->where('level', 2)->inRandomOrder()->limit(8)->get();
         $level3 = Question::select('id', 'title', 'type', 'desc', 'img')->with('answers:id,question_id,title,is_right')->where('pest_id', $pest->id)->where('level', 3)->inRandomOrder()->limit(1)->get();
 
-        return response()->json([
-            'result' => true,
-            'data'   => $level1->merge($level2)->merge($level3),
-        ]);
+        return view('questions');
     }
 
     /**
@@ -99,16 +122,32 @@ class PestController extends Controller
             DB::commit();
 
             return response()->json([
-                'result'  => true,
-                'is_pass' => $record->score >= 60,
+                'result' => true,
+                'id'     => $record->id,
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();
 
             return response()->json([
-                'result'  => true,
-                'is_pass' => false,
+                'result' => true,
+                'id'     => null,
             ]);
         }
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function result(Request $request)
+    {
+        $score = 0;
+        $is_pass = false;
+        $record = Record::find($request->input('id'));
+        if ($record && $record->score >= 60) $is_pass = true;
+        if ($record) $score = $record->score;
+
+        return view('result', compact('is_pass', 'score'));
     }
 }

@@ -1,0 +1,304 @@
+html,
+body,
+p {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Microsoft YaHei UI';
+}
+
+html,
+body,
+header,
+content {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-image: url('/img/bg2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-group {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 14%;
+    height: 200px;
+}
+
+.btn {
+    font-size: 31px;
+    font-weight: bold;
+    width: 100%;
+    height: 52px;
+    border: 1px solid #fff;
+    outline: none;
+    text-align: center;
+    line-height: 52px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.btn-manage,
+.btn-student,
+.btn-others {
+    background-color: #6CEDCA;
+    color: #fef6b4;
+    position: relative;
+}
+
+.choice-status>.btn:hover{
+    background: #037a8d
+}
+
+.btn-manage>div,
+.btn-student>div,
+.btn-others>div {
+    margin-left: 5%;
+}
+
+.btn-manage::before,
+.btn-student::before,
+.btn-others::before {
+    content: "";
+    background-image: url("/img/arrow.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: absolute;
+    display: block;
+    width: 12%;
+    height: 34px;
+    top: 10px;
+    left: 8%;
+}
+
+.btn-account {
+    background-color: #4474BB;
+    color: #fff;
+}
+
+.btn-key {
+    background-color: #20E0C3;
+    color: #fff;
+}
+
+.btn-login {
+    background-color: #3A6B90;
+    color: #ffaed4;
+}
+
+.login-group .btn-play {
+    width: 105%;
+    height: 80px;
+    border: none;
+    background-image: url("/img/play.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.header-box {
+    width: 100%;
+    height: 22%;
+    overflow: hidden;
+    position: relative;
+}
+
+.header-box img {
+    width: 100%;
+    height: 100%;
+}
+
+.header-box .cloud-group {
+    width: 100%;
+    height: 100%;
+}
+
+.header-box .bird {
+    position: absolute;
+    top: 60%;
+    right: 33%;
+    width: 4%;
+}
+
+.header-box .sun {
+    position: absolute;
+    top: 20%;
+    right: 7%;
+    width: 5%;
+}
+
+.cloud-group .cloud {
+    float: left;
+    position: absolute;
+    animation: cloudMove linear infinite normal;
+}
+
+.cloud-group .cloud-middle {
+    top: 12%;
+    left: -248px;
+    width: 12%;
+    animation-duration: 10s;
+    animation-delay: 5s;
+}
+
+.cloud-group .cloud-small {
+    top: 64%;
+    left: -145px;
+    width: 7%;
+    animation-duration: 10s;
+    animation-delay: 3s;
+}
+
+.cloud-group .cloud-large {
+    top: 30%;
+    left: -400px;
+    width: 21%;
+    animation-duration: 10s;
+}
+
+.cloud-small>img {
+    width: 100%;
+}
+
+.cloud-middle>img {
+    width: 100%;
+}
+
+.cloud-large>img {
+    width: 100%;
+}
+
+.question-box {
+     width: 46%;
+     position: absolute;
+     top: 21%;
+     left: 45%;
+ }
+
+.question-box .next-page {
+    width: 16%;
+    height: 50px;
+    border: 2px solid #ffffff;
+    background-color: #00a38d;
+    color: #fff;
+    line-height: 50px;
+    position: absolute;
+    top: -80px;
+    right: 0;
+    font-size: 24px;
+}
+
+.question-content {
+    width: 100%;
+    border: 3px solid #ffffff;
+    border-radius: 8px;
+    background-color: #007a8d;
+    font-size: 24px;
+    color: #ffffff;
+    padding-left: 5%;
+    cursor: pointer;
+    box-sizing: border-box;
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.question-box .next-question {
+    left: 100%;
+    opacity: 0;
+}
+
+.question-content p {
+    margin: 15px 0
+}
+
+.question-content .option {
+    width: 95%;
+    height: 105px;
+    padding-left: 3%;
+    line-height: 107px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+.fruit-img {
+    width: 148px;
+    height: 148px;
+    border: 2px solid #ffffff;
+    border-radius: 148px;
+    position: absolute;
+    top: 230px;
+    left: 370px;
+    /* background: url("img/badApple.png"); */
+}
+
+.over-box {
+    width: 11%;
+    height: 186px;
+    text-align: center;
+    line-height: 186px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #ec6faf;
+    font-size: 36px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+@keyframes cloudMove {
+    0% {
+        left: -400px;
+    }
+    100% {
+        left: 1920px;
+    }
+}
+
+.user-login {
+    display: none;
+}
+@media screen and (max-width: 1680px) {
+    .btn{
+        font-size: 24px;
+    }
+    .question-content{
+        font-size: 20px;
+    }
+    .question-content .option{
+        margin-bottom: 15px;
+        height: 90px;
+        line-height: 92px;
+    }
+    .question-box .next-page{
+        font-size:20px;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .btn{
+        font-size: 16px;
+    }
+    .question-content{
+        font-size: 16px;
+    }
+    .question-content .option{
+        margin-bottom: 10px;
+        height: 60px;
+        line-height: 62px;
+    }
+    .question-box .next-page{
+        font-size:16px;
+    }
+}

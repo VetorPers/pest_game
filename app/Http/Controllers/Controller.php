@@ -17,7 +17,7 @@ class Controller extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function resOk($data, $msg = '操作成功')
+    public function resOk($data = [], $msg = '操作成功')
     {
         return response()->json([
             'result' => true,
