@@ -68,14 +68,11 @@ class PestController extends Controller
      */
     public function storeUserAnswer(Request $request)
     {
-        $data = $request->input('data');
-        $userId = $request->input('user_id');
-        if (empty($data)) return response()->json([
-            'result'  => true,
-            'is_pass' => false,
-        ]);
-
-        DB::transaction(function () use ($userId, $data) {
+        DB::beginTransaction();
+        try {
+            $data = $request->input('data');
+            $userId = $request->input('user_id');
+            if (empty($data)) throw  new \Exception('data is empty');
             $record = Record::create(['user_id' => $userId]);
 
             $details = [];
@@ -99,11 +96,19 @@ class PestController extends Controller
             RecordDetail::insert($details);
             $record->score = collect($details)->pluck('score')->sum();
             $record->save();
+            DB::commit();
 
             return response()->json([
                 'result'  => true,
                 'is_pass' => $record->score >= 60,
             ]);
-        });
+        } catch (\Exception $exception) {
+            DB::rollBack();
+
+            return response()->json([
+                'result'  => true,
+                'is_pass' => false,
+            ]);
+        }
     }
 }
