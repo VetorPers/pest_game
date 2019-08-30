@@ -1,9 +1,11 @@
 @extends('pest')
 
 @section('content')
+    <div class="content-box">
 
-    <div class="login-group">
-        <div class="btn btn-play"></div>
+        <div class="login-group">
+            <div class="btn btn-play"></div>
+        </div>
     </div>
 
     <script>

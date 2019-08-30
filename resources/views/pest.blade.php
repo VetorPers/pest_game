@@ -34,9 +34,7 @@
 </header>
 
 <content>
-    <div class="content-box">
-        @yield('content')
-    </div>
+    @yield('content')
 </content>
 
 </body>
