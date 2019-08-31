@@ -78,8 +78,7 @@ class PestController extends Controller
         $level1 = Question::select('id', 'title', 'type', 'desc', 'img')->with('answers:id,question_id,title,is_right')->where('pest_id', $pest->id)->where('level', 1)->inRandomOrder()->limit(1)->get();
         $level2 = Question::select('id', 'title', 'type', 'desc', 'img')->with('answers:id,question_id,title,is_right')->where('pest_id', $pest->id)->where('level', 2)->inRandomOrder()->limit(8)->get();
         $level3 = Question::select('id', 'title', 'type', 'desc', 'img')->with('answers:id,question_id,title,is_right')->where('pest_id', $pest->id)->where('level', 3)->inRandomOrder()->limit(1)->get();
-        $questions = $level1->merge($level2)->merge($level3)->all();
-        $questions = json_encode($questions);
+        $questions = $level1->merge($level2)->merge($level3);
 
         return view('questions', compact('tree_sign', 'questions', 'imgs'));
     }

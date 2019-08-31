@@ -74,15 +74,15 @@
             }
         }
 
-        .cloud-small>img {
+        .cloud-small > img {
             width: 100%;
         }
 
-        .cloud-middle>img {
+        .cloud-middle > img {
             width: 100%;
         }
 
-        .cloud-large>img {
+        .cloud-large > img {
             width: 100%;
         }
 
@@ -167,7 +167,7 @@
         }
 
         @media screen and (max-width: 1680px) {
-            .question-content-box{
+            .question-content-box {
                 height: 450px;
             }
 
@@ -191,7 +191,7 @@
         }
 
         @media screen and (max-width: 1440px) {
-            .question-content-box{
+            .question-content-box {
                 height: 400px;
             }
 
@@ -211,7 +211,7 @@
         }
 
         @media screen and (max-width: 1200px) {
-            .question-content-box{
+            .question-content-box {
                 height: 350px;
             }
 
@@ -264,15 +264,16 @@
     <div class="question-box">
 
         @foreach($questions as $question)
-            <div class="question-content">
+            <div class="question-content" data-id="{{$question->id}}" data-type="{{$question->type}}">
                 <p class="question-sub">{{$question->title}}</p>
                 @foreach($question->answers as $k=>$answer)
-                    <div class="option" data-rec="{{$k+1}}"
+                    <div class="option" data-rec="{{$k+1}}" data-right="{{$answer->is_right}}"
+                         data-aid="{{$answer->id}}"
                          style="background-image: url(/img/{{$imgs[$k]}}.png)">{{$answer->title}}</div>
                 @endforeach
             </div>
 
-            <div class="fruit-img"  style="background-image: url({{$question->img}})"></div>
+            <div class="fruit-img" style="background-image: url({{$question->img}})"></div>
         @endforeach
 
     </div>
@@ -282,13 +283,10 @@
 </div>
 
 <script>
-    var questions =[];
-
     var clickCount = 0,
-        type = 1;
-    var answer = [],
-        submitArray = [],
-        isClick = true;
+        index = 1;
+
+    //桃子李子
     if ('{{$tree_sign}}' == 1) {
         $('body').css('background', 'url("/img/peach.jpg") no-repeat');
         $('.fruit-img').css({
@@ -305,60 +303,54 @@
 
     //下一页
     $('.next-page').click(function () {
-        var length = questions.length;
-        if(length - 1 == index){
+        var length = '{{$questions->count()}}';
+
+        if (length - 1 == index) {
             $('.next-page').html('保存');
-        }
-        //
-        else if(index = length){
-            $.ajax({
-                url:''
+        } else if (index == length) {
+            $.post('/pest/storeUserAnswer', {}, function (res) {
+                if (res.result) {
+                    window.location.href = '/pest/result/' + res.id
+                } else {
+
+                }
             })
         }
-        if (!isClick) {
-            return;
-        }
-        isClick = false;
-        for (var i = 0; i < answer.length; i++) {
-            $('.question-content .option:nth-of-type(' + answer[i] + ')').css('background-image', 'url("/img/error.png")');
-        }
+
         $('.question-box').children('.question-content').first().animate({
-            opacity:0
+            opacity: 0
         }, 500, 'swing', function () {
         }).animate({
             'margin-left': "-100%"
         }, 600, 'swing', function () {
             $(this).remove();
-            isClick = true;
             answer = [];
             clickCount = 0;
         });
         index++;
     });
 
-
+    var questionItem;
     //框框点击事件
-    $('.question-content-box').on('click', '.option', function () {
-        var data;
+    $('.question-content').on('click', '.option', function () {
+        var answerItem = [];
         var currentId = $(this).attr('data-rec');
-        var a = 1;
-        if (clickCount >= 1) {
-            return;
-        }
-        answer.push(currentId);
-        if (type == 1) {
-            clickCount++;
-        }
-        if (currentId == 1) {
-            $(this).css('background-image', 'url("/img/selectA.png")');
-        } else if (currentId == 2) {
-            $(this).css('background-image', 'url("/img/selectB.png")');
-        } else if (currentId == 3) {
-            $(this).css('background-image', 'url("/img/selectC.png")');
-        } else if (currentId == 4) {
-            $(this).css('background-image', 'url("/img/selectD.png")');
-        }
+        question_id = $(this).parent.attr('data-id');
+        answerItem.push($(this).attr('data-aid'));
+
+        selectOrCancel(currentId, this)
     });
+
+    function selectOrCancel(index, $this) {
+        var arr = ['A', 'B', 'C', 'D']
+        if ($($this).attr('data-selected') == 1) {
+            $($this).css('background-image', 'url("/img/' + arr[index - 1] + '.png")');
+            $($this).attr('data-selected', 0);
+        } else {
+            $($this).css('background-image', 'url("/img/select' + arr[index - 1] + '.png")');
+            $($this).attr('data-selected', 1);
+        }
+    }
 </script>
 
 </body>
