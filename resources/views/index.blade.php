@@ -10,6 +10,9 @@
 
     <script>
         $('.btn-play').click(function () {
+            setTimeout(function () {
+                $("body").mLoading();
+            }, 800);
             window.location.href = "/pest/questions/{{rand(1,2)}}"
         })
     </script>

@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('css/index.css')}}">
+    <link rel="stylesheet" href="{{asset('css/mloading.css')}}">
     <title>三峡</title>
     <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/mloading.js')}}"></script>
 </head>
 
 <body>
