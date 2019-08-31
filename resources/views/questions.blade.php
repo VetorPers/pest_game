@@ -29,6 +29,14 @@
             width: 4%;
         }
 
+        .header-box .bird {
+            position: absolute;
+            top: 60%;
+            right: 33%;
+            width: 4%;
+            animation: birdMove .5s linear infinite alternate;
+        }
+
         .header-box .sun {
             position: absolute;
             top: 20%;
@@ -71,6 +79,15 @@
             }
             100% {
                 left: 1920px;
+            }
+        }
+
+        @keyframes birdMove {
+            0% {
+                top: 60%;
+            }
+            100% {
+                top: 40%;
             }
         }
 
@@ -156,7 +173,9 @@
             border: 2px solid #ffffff;
             border-radius: 148px;
             position: fixed;
-
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: none;
         }
 
         .clearBox {
@@ -285,7 +304,7 @@
 <script>
     var clickCount = 0,
         index = 1;
-
+    $('.fruit-img').first().css('display', 'block');
     //桃子李子
     if ('{{$tree_sign}}' == 1) {
         $('body').css('background', 'url("/img/peach.jpg") no-repeat');
@@ -294,7 +313,7 @@
             left: '376px'
         })
     } else {
-        $('body').css('background', 'url("/img/lizi.jpg") no-repeat');
+        $('body').css('background', 'url("/img/lizibg.jpg") no-repeat');
         $('.fruit-img').css({
             top: '600px',
             left: '410px'
@@ -302,40 +321,65 @@
     }
 
     //下一页
+    var answerData = [], next = true;
     $('.next-page').click(function () {
+        if (!next) {
+            return;
+        }
+        next = false;
         var length = '{{$questions->count()}}';
+        var answerIds = [], data = {};
+        var currentQuestion = $('.question-box').children('.question-content').first();
+        var questionId = $(currentQuestion).attr('data-id');
+        var options = $(currentQuestion).children('.option');
+        for (var i = 0; i < options.length; i++) {
+            var optionSelected = $(options[i]).attr('data-selected');
+            var optionId;
+            if (optionSelected == 1) {
+                optionId = $(options[i]).attr('data-aid');
+                answerIds.push(optionId);
+            }
+        }
+        data.question_id = questionId;
+        data.answer_ids = answerIds;
+        answerData.push(data);
 
-        if (length - 1 == index) {
-            $('.next-page').html('保存');
-        } else if (index == length) {
-            $.post('/pest/storeUserAnswer', {}, function (res) {
+        if (index == length) {
+            console.log(answerData);
+            $.post('/pest/storeUserAnswer', {'data': answerData}, function (res) {
                 if (res.result) {
-                    window.location.href = '/pest/result/' + res.id
-                } else {
-
+                    window.location.href = '/pest/result?id=' + res.id
                 }
             })
+        } else {
+            $('.question-box').children('.question-content').first().animate({
+                opacity: 0
+            }, 500, 'swing', function () {
+                console.log($('.question-box').children('.fruit-img').first());
+                var firstImg = $('.question-box').children('.fruit-img').first();
+                $(firstImg).remove();
+                firstImg = $('.question-box').children('.fruit-img').first();
+                $(firstImg).css('display', 'block');
+            }).animate({
+                'margin-left': "-100%"
+            }, 600, 'swing', function () {
+                $(this).remove();
+                answer = [];
+                clickCount = 0;
+                next = true;
+                if (length == index) {
+                    $('.next-page').html('保存');
+                }
+            });
         }
-
-        $('.question-box').children('.question-content').first().animate({
-            opacity: 0
-        }, 500, 'swing', function () {
-        }).animate({
-            'margin-left': "-100%"
-        }, 600, 'swing', function () {
-            $(this).remove();
-            answer = [];
-            clickCount = 0;
-        });
         index++;
     });
 
-    var questionItem;
     //框框点击事件
     $('.question-content').on('click', '.option', function () {
         var answerItem = [];
         var currentId = $(this).attr('data-rec');
-        question_id = $(this).parent.attr('data-id');
+        question_id = $(this).parent().attr('data-id');
         answerItem.push($(this).attr('data-aid'));
 
         selectOrCancel(currentId, this)

@@ -173,24 +173,6 @@ body {
 .cloud-large>img {
     width: 100%;
 }
-
-.over-box {
-    width: 11%;
-    height: 186px;
-    text-align: center;
-    line-height: 186px;
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    color: #ec6faf;
-    font-size: 36px;
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-
 @keyframes cloudMove {
     0% {
         left: -400px;
@@ -211,6 +193,43 @@ body {
     display: none;
 }
 
+
+
+
+.over-box {
+    width: 16%;
+    height: 230px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.score{
+    width: 100%;
+    height: 200px;
+    color: #ec6faf;
+    font-size: 60px;
+    text-align: center;
+    font-weight: bold;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 10px;
+    text-shadow: 3px 3px #fff;
+}
+.pass{
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    /*height: 29px;*/
+}
+.pass image{
+    width: 80%;
+}
+.score{
+    height: 189px;
+}
 @media screen and (max-width: 1680px) {
     .btn {
         font-size: 24px;
@@ -224,6 +243,9 @@ body {
     }
     .question-content-box .next-page {
         font-size: 20px;
+    }
+    .score{
+        font-size: 52px;
     }
 }
 
@@ -241,6 +263,9 @@ body {
     .question-content-box .next-page {
         font-size: 18px;
     }
+    .score{
+        font-size: 46px;
+    }
 }
 
 @media screen and (max-width: 1200px) {
@@ -256,5 +281,8 @@ body {
     }
     .question-content-box .next-page {
         font-size: 16px;
+    }
+    .score{
+        font-size: 38px;
     }
 }

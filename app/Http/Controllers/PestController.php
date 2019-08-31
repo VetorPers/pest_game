@@ -95,14 +95,15 @@ class PestController extends Controller
         DB::beginTransaction();
         try {
             $data = $request->input('data');
-            $userId = $request->input('user_id');
+            $userId = Auth::id();
+
             if (empty($data)) throw  new \Exception('data is empty');
             $record = Record::create(['user_id' => $userId]);
 
             $details = [];
             foreach ($data as $item) {
                 $questionId = $item['question_id'];
-                $answerIds = $item['answer_ids'];
+                $answerIds = $item['answer_ids'] ?? [];
                 $isRight = Question::find($questionId)->is_right($answerIds);
 
                 $details[] = [
