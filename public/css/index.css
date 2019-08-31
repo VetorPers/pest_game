@@ -55,7 +55,7 @@ body {
     position: relative;
 }
 
-.choice-status>.btn:hover{
+.choice-status>.btn:hover {
     background: #037a8d
 }
 
@@ -108,12 +108,9 @@ body {
     width: 100%;
     height: 22%;
     overflow: hidden;
-    position: relative;
-}
-
-.header-box img {
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .header-box .cloud-group {
@@ -126,6 +123,7 @@ body {
     top: 60%;
     right: 33%;
     width: 4%;
+    animation: birdMove .5s linear infinite alternate;
 }
 
 .header-box .sun {
@@ -176,71 +174,6 @@ body {
     width: 100%;
 }
 
-.question-box {
-     width: 46%;
-     position: absolute;
-     top: 21%;
-     left: 45%;
- }
-
-.question-box .next-page {
-    width: 16%;
-    height: 50px;
-    border: 2px solid #ffffff;
-    background-color: #00a38d;
-    color: #fff;
-    line-height: 50px;
-    position: absolute;
-    top: -80px;
-    right: 0;
-    font-size: 24px;
-}
-
-.question-content {
-    width: 100%;
-    border: 3px solid #ffffff;
-    border-radius: 8px;
-    background-color: #007a8d;
-    font-size: 24px;
-    color: #ffffff;
-    padding-left: 5%;
-    cursor: pointer;
-    box-sizing: border-box;
-    position: absolute;
-    top:0;
-    left:0;
-}
-
-.question-box .next-question {
-    left: 100%;
-    opacity: 0;
-}
-
-.question-content p {
-    margin: 15px 0
-}
-
-.question-content .option {
-    width: 95%;
-    height: 105px;
-    padding-left: 3%;
-    line-height: 107px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-.fruit-img {
-    width: 148px;
-    height: 148px;
-    border: 2px solid #ffffff;
-    border-radius: 148px;
-    position: absolute;
-    top: 230px;
-    left: 370px;
-    /* background: url("img/badApple.png"); */
-}
-
 .over-box {
     width: 11%;
     height: 186px;
@@ -266,39 +199,62 @@ body {
         left: 1920px;
     }
 }
-
+@keyframes birdMove {
+    0% {
+        top: 60%;
+    }
+    100% {
+        top: 40%;
+    }
+}
 .user-login {
     display: none;
 }
+
 @media screen and (max-width: 1680px) {
-    .btn{
+    .btn {
         font-size: 24px;
     }
-    .question-content{
+    .question-content {
         font-size: 20px;
     }
-    .question-content .option{
-        margin-bottom: 15px;
+    .question-content .option {
         height: 90px;
         line-height: 92px;
     }
-    .question-box .next-page{
-        font-size:20px;
+    .question-content-box .next-page {
+        font-size: 20px;
     }
 }
+
+@media screen and (max-width: 1440px) {
+    .btn {
+        font-size: 22px;
+    }
+    .question-content {
+        font-size: 18px;
+    }
+    .question-content .option {
+        height: 80px;
+        line-height: 82px;
+    }
+    .question-content-box .next-page {
+        font-size: 18px;
+    }
+}
+
 @media screen and (max-width: 1200px) {
-    .btn{
+    .btn {
         font-size: 16px;
     }
-    .question-content{
+    .question-content {
         font-size: 16px;
     }
-    .question-content .option{
-        margin-bottom: 10px;
+    .question-content .option {
         height: 60px;
         line-height: 62px;
     }
-    .question-box .next-page{
-        font-size:16px;
+    .question-content-box .next-page {
+        font-size: 16px;
     }
 }

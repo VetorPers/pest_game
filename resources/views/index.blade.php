@@ -10,7 +10,7 @@
 
     <script>
         $('.btn-play').click(function () {
-            window.location.href = '/pest/questions'
+            window.location.href = "/pest/questions/{{rand(1,2)}}"
         })
     </script>
 @endsection

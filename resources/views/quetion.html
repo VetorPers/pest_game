@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            background-image: url('../img/peach.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .question-content-box {
+            width: 42%;
+            height: 540px;
+            /* margin: 12% 25% 0 0; */
+            bottom: 18%;
+            right: 6%;
+            overflow: hidden;
+            position: absolute;
+        }
+        
+        .question-box {
+            width: 220%;
+            position: relative;
+        }
+        
+        .question-content-box .next-page {
+            width: 6%;
+            height: 50px;
+            border: 2px solid #ffffff;
+            background-color: #00a38d;
+            color: #fff;
+            line-height: 50px;
+            position: absolute;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 8%;
+            right: 6%;
+        }
+        
+        .question-content {
+            width: 45%;
+            height: 540px;
+            border: 3px solid #ffffff;
+            border-radius: 8px;
+            background-color: #007a8d;
+            font-size: 24px;
+            color: #ffffff;
+            padding-left: 3%;
+            cursor: pointer;
+            box-sizing: border-box;
+            float: left;
+        }
+        
+        .question-box .question-content {
+            margin-right: 10%;
+        }
+        
+        .question-content p {
+            margin: 10px 0
+        }
+        
+        .question-content .option {
+            width: 95%;
+            height: 105px;
+            padding-left: 3%;
+            line-height: 107px;
+            margin-bottom: 0;
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+        
+        .fruit-img {
+            width: 148px;
+            height: 148px;
+            border: 2px solid #ffffff;
+            border-radius: 148px;
+            position: absolute;
+            background: url("../img/badApple.png");
+        }
+        
+        .clearBox {
+            clear: both;
+            margin: 0;
+            padding: 0;
+            height: 0;
+        }
+        
+        @media screen and (max-width: 1680px) {
+            .btn {
+                font-size: 24px;
+            }
+            .question-content {
+                font-size: 20px;
+            }
+            .question-content .option {
+                height: 90px;
+                line-height: 92px;
+            }
+            .question-content-box .next-page {
+                font-size: 20px;
+            }
+        }
+        
+        @media screen and (max-width: 1440px) {
+            .btn {
+                font-size: 22px;
+            }
+            .question-content {
+                font-size: 18px;
+            }
+            .question-content .option {
+                height: 80px;
+                line-height: 82px;
+            }
+            .question-content-box .next-page {
+                font-size: 18px;
+            }
+        }
+        
+        @media screen and (max-width: 1200px) {
+            .btn {
+                font-size: 16px;
+            }
+            .question-content {
+                font-size: 16px;
+            }
+            .question-content .option {
+                height: 60px;
+                line-height: 62px;
+            }
+            .question-content-box .next-page {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="question-content-box">
+        <div class="question-box">
+        </div>
+        <div class="clearBox"></div>
+        <div class="next-page">下一个</div>
+    </div>
+    <div class="fruit-img"></div>
+    <script src="jquery.js"></script>
+
+    <script>
+        var index = 0;
+
+        function createQuestion(data) {
+            var question =
+                '<div class="question-content">' +
+                '<p class="question-type">' + data.desc + '</p>' +
+                '<p class="question-sub">' + (index + 1) + '、' + data.title + '</p>' +
+                '<div class="option" data-rec="1" style="background-image: url(../img/A.png)">' + data.answers[0].title + '</div>' +
+                '<div class="option" data-rec="2" style="background-image: url(../img/B.png)">' + data.answers[1].title + '</div>' +
+                '<div class="option" data-rec="3" style="background-image: url(../img/C.png)">' + data.answers[2].title + '</div>' +
+                '<div class="option" data-rec="4" style="background-image: url(../img/D.png)">' + data.answers[3].title + '</div>' +
+                '</div>';
+            return question;
+        };
+        var data, tree_sign = 2;
+        $.ajax({
+            url: 'http://118.24.70.62:8080/pest/questions',
+            type: 'get',
+            data: {
+                user_id: 1,
+                tree_sign: 1
+            },
+            success: function(res) {
+                console.log(res);
+                questionArray = res.data;
+                index++;
+                data = res.data;
+                for (var i = 0; i < data.length; i++) {
+                    var Question = createQuestion(data[i]);
+                    $('.question-box').append(Question);
+                }
+                if (tree_sign == 1) {
+                    $('body').css('background', 'url("../img/peach.jpg") no-repeat');
+                    $('.fruit-img').css({
+                        top: '230px',
+                        left: '70px'
+                    })
+                } else {
+                    $('body').css('background', 'url("../img/lizi.jpg") no-repeat');
+                    $('.fruit-img').css({
+                        top: '600px',
+                        left: '410px'
+                    })
+                }
+            }
+        });
+
+
+        //下一页
+        $('.next-page').click(function() {
+            if (!isClick) {
+                return;
+            }
+            isClick = false;
+            for (var i = 0; i < answer.length; i++) {
+                $('.question-content .option:nth-of-type(' + answer[i] + ')').css('background-image', 'url("../img/error.png")');
+            }
+            $('.question-box').children('.question-content').first().animate({
+                'margin-left': "-100%"
+            }, 1500, 'swing', function() {
+                $(this).remove();
+                isClick = true;
+                answer = [];
+                clickCount = 0;
+            });
+            index++;
+        });
+
+
+        //框框点击事件
+        var clickCount = 0,
+            type = 1;
+        var answer = [],
+            submitArray = [],
+            isClick = true;;
+        $('.question-content').on('click', '.option', function() {
+            var data;
+            var currentId = $(this).attr('data-rec');
+            var a = 1;
+            if (clickCount >= 1) {
+                return;
+            }
+            answer.push(currentId);
+            if (type == 1) {
+                clickCount++;
+            }
+            if (currentId == 1) {
+                $(this).css('background-image', 'url("../img/selectA.png")');
+            } else if (currentId == 2) {
+                $(this).css('background-image', 'url("../img/selectB.png")');
+            } else if (currentId == 3) {
+                $(this).css('background-image', 'url("../img/selectC.png")');
+            } else if (currentId == 4) {
+                $(this).css('background-image', 'url("../img/selectD.png")');
+            }
+        });
+    </script>
+</body>
+
+</html>
