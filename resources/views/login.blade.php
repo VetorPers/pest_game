@@ -16,22 +16,28 @@
                 </div>
             </div>
             <div class="user-login">
-                <input type="button" class="btn btn-account" value="用户名"/>
-                <input type="button" class="btn btn-key" value="密码"/>
+                <input type="button" class="btn btn-account" value="输入学号"/>
                 <input type="button" class="btn btn-login" value="登录"/>
             </div>
         </div>
     </div>
 
     <script>
+        $('.btn.btn-account').click(function () {
+            $(this).attr('type', 'text');
+            $(this).attr('value', '');
+        });
+        $('.btn.btn-account').blur(function () {
+            if ($(this).attr('value') == '') {
+                $(this).attr('value', '输入学号')
+                $(this).attr('type', 'button')
+            }
+        });
         $('.btn.btn-manage').click(function () {
             window.location.href = '/admin/charts';
         });
         $('.btn.btn-student').click(function () {
             $(this).parent().css('display', 'none');
-            $('.btn.btn-key').css('display', 'none');
-            $('.btn.btn-account').val('输入学号');
-            accountValue = '输入学号';
             $('.btn.btn-account').css('text-decoration', 'underline');
             $('.user-login').css('display', 'block');
             loginType = 2;
