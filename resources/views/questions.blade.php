@@ -15,6 +15,10 @@
 <body>
 <header>
     <div class="header-box">
+        <audio id="next-q">
+            <source src="{{asset('audio/next.mp3')}}"/>
+        </audio>
+
         <div class="cloud-group">
             <div class="cloud cloud-middle">
                 <img src="{{asset('img/cloud.png')}}" alt="">
@@ -118,6 +122,8 @@
                 $(firstImg).remove();
                 firstImg = $('.question-box').children('.fruit-img').first();
                 $(firstImg).css('display', 'block');
+
+                $('#next-q')[0].play()
             }).animate({
                 'margin-left': "-100%"
             }, 600, 'swing', function () {

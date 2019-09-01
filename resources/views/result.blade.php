@@ -9,7 +9,7 @@
     <title>三峡</title>
     <script src="{{asset('js/jquery.js')}}"></script>
     <style>
-        body{
+        body {
             background-image: url("/img/graybg.jpg");
         }
     </style>
@@ -22,6 +22,10 @@
 
         @if($is_pass)
             <div class="over-box">
+                <audio id="winer" autoplay>
+                    <source src="{{asset('audio/win.wav')}}"/>
+                </audio>
+
                 <div class="score" style="background-image: url(/img/win.png)">
                     {{$score}}
                 </div>
@@ -31,6 +35,10 @@
             </div>
         @else
             <div class="over-box">
+                <audio id="losser" autoplay>
+                    <source src="{{asset('audio/loss.mp3')}}"/>
+                </audio>
+
                 <div class="score" style="background-image: url(/img/loss.png)">
                 </div>
                 <div class="pass" onclick="Restart()">
