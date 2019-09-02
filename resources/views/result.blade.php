@@ -1,23 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('pest')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('css/index.css')}}">
-    <title>三峡</title>
-    <script src="{{asset('js/jquery.js')}}"></script>
-    <style>
-        body {
-            background-image: url("/img/graybg.jpg");
-        }
-    </style>
-</head>
+@section('content')
 
-<body>
-
-<content>
     <div class="content-box">
 
         @if($is_pass)
@@ -47,11 +31,11 @@
             </div>
         @endif
     </div>
-</content>
-<script>
-    function Restart() {
-        location.href = '/'
-    }
-</script>
-</body>
-</html>
+
+    <script>
+        function Restart() {
+            location.href = '/'
+        }
+    </script>
+
+@endsection
