@@ -35,14 +35,14 @@
 }
 
 .cloud-group .cloud {
-    float: left;
+    float: right;
     position: absolute;
     animation: cloudMove linear infinite normal;
 }
 
 .cloud-group .cloud-middle {
     top: 12%;
-    left: -248px;
+    right: -248px;
     width: 12%;
     animation-duration: 10s;
     animation-delay: 5s;
@@ -50,7 +50,7 @@
 
 .cloud-group .cloud-small {
     top: 64%;
-    left: -145px;
+    right: -145px;
     width: 7%;
     animation-duration: 10s;
     animation-delay: 3s;
@@ -65,10 +65,10 @@
 
 @keyframes cloudMove {
     0% {
-        left: -400px;
+        right: -400px;
     }
     100% {
-        left: 1920px;
+        right: 1920px;
     }
 }
 
