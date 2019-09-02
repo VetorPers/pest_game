@@ -146,23 +146,23 @@ body {
     top: 12%;
     right: -248px;
     width: 12%;
-    animation-duration: 10s;
-    animation-delay: 5s;
+    animation-duration: 9s;
+    animation-delay: 3s;
 }
 
 .cloud-group .cloud-small {
     top: 64%;
     right: -145px;
     width: 7%;
-    animation-duration: 10s;
-    animation-delay: 3s;
+    animation-duration: 9s;
+    animation-delay: 5s;
 }
 
 .cloud-group .cloud-large {
     top: 30%;
     right: -400px;
     width: 21%;
-    animation-duration: 10s;
+    animation-duration: 9s;
 }
 
 .cloud-small>img {
