@@ -36,7 +36,7 @@ class Question extends Model
         if ($this->attributes['type'] == 2) {
             if (empty(array_diff($answerId, $rightAnswerIds))) $res = true;
         } else {
-            if (in_array($answerId, $rightAnswerIds)) $res = true;
+            if (count($answerId) == 1 && in_array($answerId[0], $rightAnswerIds)) $res = true;
         }
 
         return $res;
