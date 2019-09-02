@@ -124,6 +124,7 @@ body {
     right: 33%;
     width: 4%;
     animation: birdMove .5s linear infinite alternate;
+    z-index:3;
 }
 
 .header-box .sun {
@@ -131,12 +132,14 @@ body {
     top: 20%;
     right: 7%;
     width: 5%;
+    z-index: 1;
 }
 
 .cloud-group .cloud {
     float: left;
     position: absolute;
     animation: cloudMove linear infinite normal;
+    z-index: 2;
 }
 
 .cloud-group .cloud-middle {
@@ -192,9 +195,6 @@ body {
 .user-login {
     display: none;
 }
-
-
-
 
 .over-box {
     width: 16%;

@@ -25,6 +25,7 @@
     right: 33%;
     width: 4%;
     animation: birdMove .5s linear infinite alternate;
+    z-index: 3;
 }
 
 .header-box .sun {
@@ -32,12 +33,14 @@
     top: 20%;
     right: 7%;
     width: 5%;
+    z-index: 1;
 }
 
 .cloud-group .cloud {
     float: right;
     position: absolute;
     animation: cloudMove linear infinite normal;
+    z-index: 2;
 }
 
 .cloud-group .cloud-middle {
@@ -58,7 +61,7 @@
 
 .cloud-group .cloud-large {
     top: 30%;
-    left: -400px;
+    right: -400px;
     width: 21%;
     animation-duration: 10s;
 }
