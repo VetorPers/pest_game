@@ -1,6 +1,6 @@
 <?php
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/', 'PestController@index')->name('home');
 Route::get('login', 'PestController@login')->name('login');
