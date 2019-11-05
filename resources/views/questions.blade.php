@@ -49,8 +49,7 @@
                 </p>
                 @foreach($question->answers as $k=>$answer)
                     <div class="option" data-rec="{{$k+1}}" data-right="{{$answer->is_right}}"
-                         data-aid="{{$answer->id}}"
-                         style="background-image: url(/img/{{$imgs[$k]??''}}.png)">{{$answer->title}}</div>
+                         data-aid="{{$answer->id}}">{{$answer->title}}</div>
                 @endforeach
             </div>
 
@@ -141,14 +140,11 @@
 
     //框框点击事件
     $('.question-content').on('click', '.option', function () {
-        var index = $(this).attr('data-rec');
-        var arr = ['A', 'B', 'C', 'D'];
-
         if ($(this).attr('data-selected') == 1) {
-            $(this).css('background-image', 'url("/img/' + arr[index - 1] + '.png")');
+            $(this).css('border', '2px solid #fff');
             $(this).attr('data-selected', 0);
         } else {
-            $(this).css('background-image', 'url("/img/select' + arr[index - 1] + '.png")');
+            $(this).css('border', '2px solid #F6C183');
             $(this).attr('data-selected', 1);
         }
     });

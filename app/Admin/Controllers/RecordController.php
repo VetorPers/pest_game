@@ -32,7 +32,7 @@ class RecordController extends AdminController
         $grid->id('Id');
         $grid->column('user.name', '姓名');
         $grid->column('', '班级')->display(function () {
-            return $this->user->grade->name;
+            return optional($this->user->grade)->name;
         });
         $grid->column('user.number', '学号');
         $grid->score('分数')->sortable();
