@@ -153,11 +153,12 @@
     width: 95%;
     height: 105px;
     padding-left: 3%;
-    line-height: 107px;
+    /*line-height: 107px;*/
     margin-bottom: 0;
     cursor: pointer;
     background-repeat: no-repeat;
     background-size: 100%;
+    box-sizing: border-box;
 }
 
 .fruit-img {

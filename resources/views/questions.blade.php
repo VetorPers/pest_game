@@ -42,13 +42,15 @@
 <div class="question-content-box">
     <div class="question-box">
 
-        @foreach($questions as $question)
+        @foreach($questions as $index=>$question)
             <div class="question-content" data-id="{{$question->id}}" data-type="{{$question->type}}">
-                <p class="question-sub">{{$question->title}}</p>
+                <p class="question-sub">{{$index+1}}.
+                    <span style="color: yellow;">[@if($question->type==2)多选@endif单选]</span> {{$question->title}}
+                </p>
                 @foreach($question->answers as $k=>$answer)
                     <div class="option" data-rec="{{$k+1}}" data-right="{{$answer->is_right}}"
                          data-aid="{{$answer->id}}"
-                         style="background-image: url(/img/{{$imgs[$k]}}.png)">{{$answer->title}}</div>
+                         style="background-image: url(/img/{{$imgs[$k]??''}}.png)">{{$answer->title}}</div>
                 @endforeach
             </div>
 

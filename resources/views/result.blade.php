@@ -24,6 +24,7 @@
                 </audio>
 
                 <div class="score" style="background-image: url(/img/loss.png)">
+                    {{$score}}
                 </div>
                 <div class="pass" onclick="Restart()">
                     <img src="/img/restart.png" alt="">
