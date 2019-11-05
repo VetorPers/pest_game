@@ -153,12 +153,12 @@
     width: 95%;
     height: 105px;
     padding-left: 3%;
-    /*line-height: 107px;*/
     margin-bottom: 0;
     cursor: pointer;
     background-repeat: no-repeat;
     background-size: 100%;
     box-sizing: border-box;
+    padding-top: 23px;
 }
 
 .fruit-img {
@@ -195,7 +195,7 @@
 
     .question-content .option {
         height: 90px;
-        line-height: 92px;
+        padding-top: 23px;
     }
 
     .question-content-box .next-page {
@@ -215,7 +215,7 @@
 
     .question-content .option {
         height: 80px;
-        line-height: 82px;
+        padding-top: 23px;
     }
 
     .question-content-box .next-page {
@@ -239,7 +239,7 @@
 
     .question-content .option {
         height: 60px;
-        line-height: 62px;
+        padding-top: 12px;
     }
 
     .question-content-box .next-page {

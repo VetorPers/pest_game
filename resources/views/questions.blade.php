@@ -45,7 +45,7 @@
         @foreach($questions as $index=>$question)
             <div class="question-content" data-id="{{$question->id}}" data-type="{{$question->type}}">
                 <p class="question-sub">{{$index+1}}.
-                    <span style="color: yellow;">[@if($question->type==2)多选@endif单选]</span> {{$question->title}}
+                    <span style="color: yellow;">[@if($question->type==2)多选@else单选@endif]</span> {{$question->title}}
                 </p>
                 @foreach($question->answers as $k=>$answer)
                     <div class="option" data-rec="{{$k+1}}" data-right="{{$answer->is_right}}"
@@ -82,11 +82,13 @@
 
     //下一页
     var answerData = [], index = 0, next = true, answerIds = [], data = {};
+    var length = '{{$questions->count()}}';
+    if (length == 1) $('.next-page').html('保存');
+
     $('.next-page').click(function () {
         if (!next) return;
         next = false;
 
-        var length = '{{$questions->count()}}';
         var currentQuestion = $('.question-box').children('.question-content').first();
         var questionId = $(currentQuestion).attr('data-id');
         var options = $(currentQuestion).children('.option');
@@ -107,8 +109,7 @@
         data.answer_ids = answerIds;
         answerData.push(data);
 
-        if (index < length) {
-            if (index >= length - 1) $('.next-page').html('保存');
+        if (index < length - 1) {
             $('.question-box').children('.question-content').first().animate({
                 opacity: 0
             }, 500, 'swing', function () {
@@ -123,6 +124,7 @@
                 $(this).remove();
                 index++;
                 next = true;
+                if (index >= length - 1) $('.next-page').html('保存');
             });
         } else {
             setTimeout(function () {
