@@ -64,8 +64,6 @@
 </div>
 
 <script>
-    var clickCount = 0,
-        index = 1;
     $('.fruit-img').first().css('display', 'block');
     //桃子李子
     if ('{{$tree_sign}}' == 1) {
@@ -83,14 +81,12 @@
     }
 
     //下一页
-    var answerData = [], next = true;
+    var answerData = [], index = 0, next = true, answerIds = [], data = {};
     $('.next-page').click(function () {
-        if (!next) {
-            return;
-        }
+        if (!next) return;
         next = false;
+
         var length = '{{$questions->count()}}';
-        var answerIds = [], data = {};
         var currentQuestion = $('.question-box').children('.question-content').first();
         var questionId = $(currentQuestion).attr('data-id');
         var options = $(currentQuestion).children('.option');
@@ -102,11 +98,33 @@
                 answerIds.push(optionId);
             }
         }
+        if (!answerIds.length) {
+            alert('请选择答案');
+            next = true;
+            return;
+        }
         data.question_id = questionId;
         data.answer_ids = answerIds;
         answerData.push(data);
 
-        if (index == length) {
+        if (index < length) {
+            if (index >= length - 1) $('.next-page').html('保存');
+            $('.question-box').children('.question-content').first().animate({
+                opacity: 0
+            }, 500, 'swing', function () {
+                var firstImg = $('.question-box').children('.fruit-img').first();
+                $(firstImg).remove();
+                $(firstImg).css('display', 'block');
+
+                $('#next-q')[0].play()
+            }).animate({
+                'margin-left': "-100%"
+            }, 600, 'swing', function () {
+                $(this).remove();
+                index++;
+                next = true;
+            });
+        } else {
             setTimeout(function () {
                 $("body").mLoading();
             }, 800);
@@ -116,51 +134,22 @@
                     window.location.href = '/pest/result?id=' + res.id
                 }
             })
-        } else {
-            $('.question-box').children('.question-content').first().animate({
-                opacity: 0
-            }, 500, 'swing', function () {
-                var firstImg = $('.question-box').children('.fruit-img').first();
-                $(firstImg).remove();
-                firstImg = $('.question-box').children('.fruit-img').first();
-                $(firstImg).css('display', 'block');
-
-                $('#next-q')[0].play()
-            }).animate({
-                'margin-left': "-100%"
-            }, 600, 'swing', function () {
-                $(this).remove();
-                answer = [];
-                clickCount = 0;
-                next = true;
-                if (length == index) {
-                    $('.next-page').html('保存');
-                }
-            });
         }
-        index++;
     });
 
     //框框点击事件
     $('.question-content').on('click', '.option', function () {
-        var answerItem = [];
-        var currentId = $(this).attr('data-rec');
-        question_id = $(this).parent().attr('data-id');
-        answerItem.push($(this).attr('data-aid'));
+        var index = $(this).attr('data-rec');
+        var arr = ['A', 'B', 'C', 'D'];
 
-        selectOrCancel(currentId, this)
-    });
-
-    function selectOrCancel(index, $this) {
-        var arr = ['A', 'B', 'C', 'D']
-        if ($($this).attr('data-selected') == 1) {
-            $($this).css('background-image', 'url("/img/' + arr[index - 1] + '.png")');
-            $($this).attr('data-selected', 0);
+        if ($(this).attr('data-selected') == 1) {
+            $(this).css('background-image', 'url("/img/' + arr[index - 1] + '.png")');
+            $(this).attr('data-selected', 0);
         } else {
-            $($this).css('background-image', 'url("/img/select' + arr[index - 1] + '.png")');
-            $($this).attr('data-selected', 1);
+            $(this).css('background-image', 'url("/img/select' + arr[index - 1] + '.png")');
+            $(this).attr('data-selected', 1);
         }
-    }
+    });
 </script>
 
 </body>
