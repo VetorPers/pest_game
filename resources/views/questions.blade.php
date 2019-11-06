@@ -80,7 +80,7 @@
     }
 
     //下一页
-    var answerData = [], index = 0, next = true, answerIds = [], data = {};
+    var answerData = [], index = 0, next = true;
     var length = '{{$questions->count()}}';
     if (length == 1) $('.next-page').html('保存');
 
@@ -88,6 +88,7 @@
         if (!next) return;
         next = false;
 
+        var answerIds = [], data = {};
         var currentQuestion = $('.question-box').children('.question-content').first();
         var questionId = $(currentQuestion).attr('data-id');
         var options = $(currentQuestion).children('.option');
@@ -108,44 +109,57 @@
         data.answer_ids = answerIds;
         answerData.push(data);
 
-        if (index < length - 1) {
-            $('.question-box').children('.question-content').first().animate({
-                opacity: 0
-            }, 500, 'swing', function () {
-                var firstImg = $('.question-box').children('.fruit-img').first();
-                $(firstImg).remove();
-                $(firstImg).css('display', 'block');
+        currentQuestion.find("div[data-right$='1']").css('border', '2px solid #00B800');
+        currentQuestion.find("div[data-right!='1'][data-selected$='1']").css('border', '2px solid #ED6535');
 
-                $('#next-q')[0].play()
-            }).animate({
-                'margin-left': "-100%"
-            }, 600, 'swing', function () {
-                $(this).remove();
-                index++;
-                next = true;
-                if (index >= length - 1) $('.next-page').html('保存');
-            });
-        } else {
-            setTimeout(function () {
-                $("body").mLoading();
-            }, 800);
+        setTimeout(function () {
+            if (index < length - 1) {
+                $('.question-box').children('.question-content').first().animate({
+                    opacity: 0
+                }, 500, 'swing', function () {
+                    var firstImg = $('.question-box').children('.fruit-img').first();
+                    $(firstImg).remove();
+                    $(firstImg).css('display', 'block');
 
-            $.post('/pest/storeUserAnswer', {'data': answerData}, function (res) {
-                if (res.result) {
-                    window.location.href = '/pest/result?id=' + res.id
-                }
-            })
-        }
+                    $('#next-q')[0].play()
+                }).animate({
+                    'margin-left': "-100%"
+                }, 600, 'swing', function () {
+                    $(this).remove();
+                    index++;
+                    next = true;
+                    if (index >= length - 1) $('.next-page').html('保存');
+                });
+            } else {
+                setTimeout(function () {
+                    $("body").mLoading();
+                }, 800);
+                console.log(answerData)
+                $.post('/pest/storeUserAnswer', {'data': answerData}, function (res) {
+                    if (res.result) {
+                        window.location.href = '/pest/result?id=' + res.id
+                    }
+                })
+            }
+        }, 1000);
     });
 
     //框框点击事件
     $('.question-content').on('click', '.option', function () {
-        if ($(this).attr('data-selected') == 1) {
-            $(this).css('border', '2px solid #fff');
-            $(this).attr('data-selected', 0);
-        } else {
+        var qtype = $(this).parent().attr('data-type');
+        if (qtype == 1) {
+            $(this).parent().find('div').css('border', '2px solid #fff');
+            $(this).parent().find('div').attr('data-selected', 0);
             $(this).css('border', '2px solid #F6C183');
             $(this).attr('data-selected', 1);
+        } else {
+            if ($(this).attr('data-selected') == 1) {
+                $(this).css('border', '2px solid #fff');
+                $(this).attr('data-selected', 0);
+            } else {
+                $(this).css('border', '2px solid #F6C183');
+                $(this).attr('data-selected', 1);
+            }
         }
     });
 </script>
