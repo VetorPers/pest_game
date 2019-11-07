@@ -16,6 +16,9 @@
                 <div class="pass">
                     <img src="/img/pass.png" alt="">
                 </div>
+                <div class="pass" onclick="Restart()">
+                    <img src="/img/restart.png" alt="">
+                </div>
             </div>
         @else
             <div class="over-box">
