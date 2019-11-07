@@ -134,7 +134,7 @@
                 setTimeout(function () {
                     $("body").mLoading();
                 }, 800);
-                console.log(answerData)
+                
                 $.post('/pest/storeUserAnswer', {'data': answerData}, function (res) {
                     if (res.result) {
                         window.location.href = '/pest/result?id=' + res.id
